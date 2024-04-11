@@ -63,6 +63,11 @@ def expenses(username):
     # Change html template file name to new one once completed
     return render_template("posts.html", user=current_user, expenses=expenses, username=username)
 
+@views.route("/start")
+def start():
+    # Assuming you have other code here
+    return render_template('start.html', user=current_user)
+
 
 # @views.route("/create-comment/<post_id>", methods=['POST'])
 # @login_required
