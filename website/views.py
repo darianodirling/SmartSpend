@@ -63,10 +63,36 @@ def expenses(username):
     # Change html template file name to new one once completed
     return render_template("posts.html", user=current_user, expenses=expenses, username=username)
 
-@views.route("/start")
+@views.route("/start", methods=['GET', 'POST'])
 def start():
-    # Assuming you have other code here
+    if request.method == 'POST':
+        names = request.form.getlist('name[]')
+        amounts = request.form.getlist('amount[]')
+        categories = request.form.getlist('category[]')
+
+        # Create and save new Expense instances for each set of data
+        for name, amount, category in zip(names, amounts, categories):
+            new_expense = Expense(description=name, amount=float(amount), category=category, owner=current_user.id)
+            db.session.add(new_expense)
+        db.session.commit()
+        flash('Expenses added successfully!', category='success')
+        return redirect(url_for('views.start'))
+    
     return render_template('start.html', user=current_user)
+
+from flask import jsonify
+
+@views.route("/expense-data")
+@login_required
+def expense_data():
+    # Querying expenses and grouping them by category with the sum of amounts
+    expenses = db.session.query(
+        Expense.category,
+        db.func.sum(Expense.amount).label('total')
+    ).group_by(Expense.category).all()
+
+    data = [{"category": exp.category, "amount": float(exp.total)} for exp in expenses]
+    return jsonify(data)
 
 
 # @views.route("/create-comment/<post_id>", methods=['POST'])
