@@ -1,13 +1,104 @@
 {% extends "base.html" %} {% block content %}
-<!-- Your content goes here -->
-<div style="text-align: center">
-  <h1>Smart Spend</h1>
+<style>
+  .smart-spend-home-image {
+    background-image: url("../static/images/smartspenderhomescreen.jpg");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 20px;
+    font-size: 48px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 10em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-  <h1>
-    Ready to take control your finances? Start your journey towards a brighter
-    financial future.
-  </h1>
-  <button type="button">Start</button>
+  .home-screen-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .home-screen-start-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .home-screen button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .home-screen button:hover {
+    background-color: #0056b3;
+  }
+
+  .ready-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+
+    margin-top: 5em;
+    margin-bottom: 5em;
+  }
+
+  .ready-title {
+    text-align: right;
+    width: 70%;
+  }
+
+  .ready-blurb {
+    text-align: right;
+    width: 70%;
+  }
+
+  .start-button {
+    width: 60%;
+    margin-right: 5em;
+  }
+</style>
+<div class="home-screen">
+  <div class="home-screen-content">
+    <div class="smart-spend-home-image">
+      <div class="smart-spend-title-text" style="font-size: 144px">
+        Smart Spend
+      </div>
+    </div>
+
+    <div class="home-screen-start-section">
+      <div class="ready-section">
+        <div class="ready-totakecontrol">
+          <h1 class="ready-title">Ready to take control of your finances?</h1>
+          <p class="ready-blurb">
+            Smart Spend is a budgeting tool that helps you track your spending
+            and make better financial decisions. Start your journey towards a
+            more secure financial future today!
+          </p>
+        </div>
+
+        <div class="start-button">
+          <button onclick="window.location.href='/start'">
+            Click Me To Start!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
 {% endblock %}
