@@ -94,6 +94,17 @@ def expense_data():
     data = [{"category": exp.category, "amount": float(exp.total)} for exp in expenses]
     return jsonify(data)
 
+@views.route("/delete-all-transactions", methods=['POST'])
+@login_required
+def delete_all_transactions():
+    try:
+        # Assuming Expense has a foreign key 'owner' referring to 'user.id'
+        Expense.query.filter_by(owner=current_user.id).delete()
+        db.session.commit()
+        return jsonify({"success": "All transactions deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 
 # @views.route("/create-comment/<post_id>", methods=['POST'])
 # @login_required

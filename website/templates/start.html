@@ -87,4 +87,25 @@ document.getElementById('addMore').addEventListener('click', function() {
     });
 </script>
 
+<!-- Assuming this is within a block content in a Jinja2 template that extends base.html -->
+<button id="deleteAllTransactions" class="btn btn-danger">Delete All My Transactions</button>
+
+<script>
+document.getElementById('deleteAllTransactions').addEventListener('click', function() {
+    if (confirm('Are you sure you want to delete all transactions? This cannot be undone!')) {
+        fetch('/delete-all-transactions', { method: 'POST' })
+        .then(response => {
+            if (response.ok) {
+                alert('All transactions have been deleted.');
+                window.location.reload();  // Reload the page to update the list of transactions
+            } else {
+                alert('Failed to delete transactions.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
+</script>
+
+
 {% endblock %}
