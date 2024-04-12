@@ -1,0 +1,84 @@
+{% extends "base.html" %} {% block title %}About{% endblock %} {% block content
+%}
+
+<style>
+  .smart-spend-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .question-answer {
+    margin: 2em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .answer {
+    width: 50%;
+  }
+</style>
+
+<div class="smart-spend-section">
+  <div class="smart-spend-title">
+    <div class="question-answer">
+      <div class="question">
+        <h1>What is Smart Spend?</h1>
+      </div>
+      <div class="answer">
+        <p>
+          SmartSpend is a financial management tool that helps you track your
+          expenses and manage your budget using the 50/30/20 rule.
+        </p>
+      </div>
+    </div>
+
+    <div class="question-answer">
+      <div class="question">
+        <h1>What is the 50/30/20 rule?</h1>
+      </div>
+      <div class="answer">
+        <p>
+          The 50/30/20 rule is a simple budgeting rule that divides your
+          after-tax income into three categories: 50% for needs, 30% for wants,
+          and 20% for savings.
+        </p>
+      </div>
+    </div>
+
+    <div class="question-answer">
+      <div class="question">
+        <h1>How does Smart Spend work?</h1>
+      </div>
+      <div class="answer">
+        <p>
+          SmartSpend allows you to input your financial transactions and
+          categorize them as needs, wants, or savings. It then generates a chart
+          that shows your spending in each category and helps you stay within
+          the 50/30/20 rule. It will then give a recommendation on how to adjust
+          your spending to meet the 50/30/20 rule.
+        </p>
+      </div>
+    </div>
+
+    <div class="question-answer">
+      <div class="question">
+        <h1>Meet The Team</h1>
+      </div>
+      <div class="answer">
+        <p>
+          Smart Spend was created by a team of software engineers who are
+          passionate about helping people take control of their finances and
+          build a brighter financial future.
+        </p>
+      </div>
+    </div>
+
+    {% endblock %}
+  </div>
+</div>

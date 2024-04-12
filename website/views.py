@@ -13,6 +13,10 @@ def home():
     expenses = Expense.query.all()
     return render_template("home.html", user=current_user, expenses=expenses)
 
+@views.route("/about")
+def about():
+    return render_template('about.html', user=current_user)
+
 
 @views.route("/create-expense", methods=['GET', 'POST'])
 @login_required
