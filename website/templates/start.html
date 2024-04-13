@@ -39,7 +39,7 @@
       Generate Chart
     </button>
   </form>
-  <div id="piechart" style="width: 900px; height: 500px"></div>
+  <div id="piechart" style="width: 900px; height: 500px; margin: 0 auto"></div>
 </div>
 
 <script>
@@ -91,21 +91,18 @@
   google.charts.load("current", { packages: ["corechart"] });
   google.charts.setOnLoadCallback(drawChart);
 
-  function fetchChartData() {
-    fetch("/expense-data")
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .then((data) => drawChart(data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }
+  function drawChart() {
+    var totals = calculateTotals();
 
-  function drawChart(chartData) {
     var data = new google.visualization.DataTable();
     data.addColumn("string", "Category");
     data.addColumn("number", "Amount");
 
-    var rows = chartData.map((item) => [item.category, item.amount]);
-    data.addRows(rows);
+    data.addRows([
+      ["Savings", totals.savings],
+      ["Wants", totals.wants],
+      ["Needs", totals.needs],
+    ]);
 
     var options = {
       title: "Expenses Distribution by Category",
@@ -113,16 +110,40 @@
       height: 500,
     };
 
+    // Check if chart exists, remove it if it does
+    if (chart) {
+      chart.clearChart();
+      chart = null;
+    }
+
     var chart = new google.visualization.PieChart(
       document.getElementById("piechart")
     );
     chart.draw(data, options);
   }
 
+  function calculateTotals() {
+    var amounts = document.getElementsByName("amount[]");
+    var categories = document.getElementsByName("category[]");
+    var totals = { savings: 0, wants: 0, needs: 0 };
+
+    for (var i = 0; i < amounts.length; i++) {
+      var amount = parseFloat(amounts[i].value);
+      var category = categories[i].value;
+      totals[category] += amount;
+    }
+
+    console.log("Savings: " + totals.savings);
+    console.log("Wants: " + totals.wants);
+    console.log("Needs: " + totals.needs);
+
+    return totals;
+  }
+
   document
     .getElementById("generateChart")
     .addEventListener("click", function () {
-      fetchChartData();
+      drawChart();
     });
 </script>
 
