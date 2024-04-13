@@ -40,27 +40,29 @@ def history():
 
 #     return redirect(url_for('views.home'))
 
-@views.route("/create-expense", methods=['GET', 'POST'])
+@views.route("/create-expense", methods=['POST'])
 @login_required
 def create_expense():
     if request.method == "POST":
-        text = request.form.get('text')
-        chartId = request.form.get('chartId')
-        savings = request.form.get('savings')
-        wants = request.form.get('wants')
-        needs = request.form.get('needs')
+        data = request.json
 
-        if not text:
-            flash('Expense cannot be empty', category='error')
-        else:
-            expense = Expense(text=text, author=current_user.id, chartId=chartId, savings=savings, wants=wants, needs=needs)
-            db.session.add(expense)
-            db.session.commit()
-            flash('Expense created!', category='success')
-            return redirect(url_for('views.home'))
+        if not data:
+            return jsonify({'error': 'No JSON data received'}), 400
 
-    # Change html template file name when new one is created
-    return render_template('start.html', user=current_user)
+      
+        chartId = data.get('chartId')
+        savings = data.get('savings')
+        wants = data.get('wants')
+        needs = data.get('needs')
+
+
+        expense = Expense(id=chartId, owner = current_user.id,  savings=savings, wants=wants, needs=needs)
+        db.session.add(expense)
+        db.session.commit()
+        return jsonify({'message': 'Expense created successfully'}), 201
+
+    # Return an error response if the request method is not POST
+    return jsonify({'error': 'Method not allowed'}), 405
 
 
 @views.route("/expenses/<username>")
