@@ -40,8 +40,9 @@
     </button>
     <button
       type="button"
-      class="btn btn btn-primary"
-      style="display: in-line-block"
+      id="saveChart"
+      class="btn btn-primary"
+      style="display: none"
     >
       Save Chart
     </button>
@@ -74,8 +75,20 @@
           </div>`;
     container.appendChild(newFieldGroup);
 
-    calculateTotals(); // Recalculate totals when a new field is added
+    calculateTotals();
   });
+
+  function calculateTotals() {
+    var amounts = document.getElementsByName("amount[]");
+    var categories = document.getElementsByName("category[]");
+    var totals = { savings: 0, wants: 0, needs: 0 };
+
+    for (var i = 0; i < amounts.length; i++) {
+      var amount = parseFloat(amounts[i].value);
+      var category = categories[i].value;
+      totals[category] += amount;
+    }
+  }
 </script>
 
 <script
@@ -85,6 +98,7 @@
 <script type="text/javascript">
   google.charts.load("current", { packages: ["corechart"] });
   google.charts.setOnLoadCallback(drawChart);
+  var chart = null;
 
   function drawChart() {
     var totals = calculateTotals();
@@ -105,16 +119,17 @@
       height: 500,
     };
 
-    // Check if chart exists, remove it if it does
     if (chart) {
       chart.clearChart();
       chart = null;
     }
 
-    var chart = new google.visualization.PieChart(
+    chart = new google.visualization.PieChart(
       document.getElementById("piechart")
     );
     chart.draw(data, options);
+
+    calculateTotals();
   }
 
   function calculateTotals() {
@@ -139,7 +154,18 @@
     .getElementById("generateChart")
     .addEventListener("click", function () {
       drawChart();
+      document.getElementById("saveChart").style.display = chart
+        ? "inline-block"
+        : "none";
     });
+
+  document.getElementById("saveChart").addEventListener("click", function () {
+    if (!chart) {
+      console.log("Cannot save because there is no chart.");
+    } else {
+      // Logic to save the chart
+    }
+  });
 </script>
 
 <!-- Assuming this is within a block content in a Jinja2 template that extends base.html -->
