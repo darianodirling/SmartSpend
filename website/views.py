@@ -17,6 +17,28 @@ def home():
 def about():
     return render_template('about.html', user=current_user)
 
+@views.route("/history")
+@login_required
+def history():
+    expenses = Expense.query.all()
+    return render_template('history.html', user=current_user)
+
+@views.route("/save-expense", methods=['POST'])
+@login_required
+def save_expense():
+    text = request.form.get('text')
+    amount = request.form.get('amount')
+    category = request.form.get('category')
+
+    if not text or not amount or not category:
+        flash('Expense cannot be empty.', category='error')
+    else:
+        expense = Expense(text=text, amount=amount, category=category, author=current_user.id)
+        db.session.add(expense)
+        db.session.commit()
+        flash('Expense created!', category='success')
+
+    return redirect(url_for('views.home'))
 
 @views.route("/create-expense", methods=['GET', 'POST'])
 @login_required
