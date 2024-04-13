@@ -23,22 +23,6 @@ def history():
     expenses = Expense.query.all()
     return render_template('history.html', user=current_user)
 
-# @views.route("/save-expense", methods=['POST'])
-# @login_required
-# def save_expense():
-#     text = request.form.get('text')
-#     amount = request.form.get('amount')
-#     category = request.form.get('category')
-
-#     if not text or not amount or not category:
-#         flash('Expense cannot be empty.', category='error')
-#     else:
-#         expense = Expense(text=text, amount=amount, category=category, author=current_user.id)
-#         db.session.add(expense)
-#         db.session.commit()
-#         flash('Expense created!', category='success')
-
-#     return redirect(url_for('views.home'))
 
 @views.route("/create-expense", methods=['POST'])
 @login_required
@@ -96,30 +80,17 @@ def start():
     
     return render_template('start.html', user=current_user)
 
-from flask import jsonify
 
-# @views.route("/expense-data")
-# @login_required
-# def expense_data():
-#     # Querying expenses and grouping them by category with the sum of amounts
-#     expenses = db.session.query(
-#         Expense.category,
-#         db.func.sum(Expense.amount).label('total')
-#     ).group_by(Expense.category).all()
-
-#     data = [{"category": exp.category, "amount": float(exp.total)} for exp in expenses]
-#     return jsonify(data)
-
-# @views.route("/delete-all-transactions", methods=['POST'])
-# @login_required
-# def delete_all_transactions():
-#     try:
-#         # Assuming Expense has a foreign key 'owner' referring to 'user.id'
-#         Expense.query.filter_by(owner=current_user.id).delete()
-#         db.session.commit()
-#         return jsonify({"success": "All transactions deleted successfully"}), 200
-#     except Exception as e:
-#         db.session.rollback()
-#         return jsonify({"error": str(e)}), 500
+@views.route("/delete-all-transactions", methods=['POST'])
+@login_required
+def delete_all_transactions():
+    try:
+        # Assuming Expense has a foreign key 'owner' referring to 'user.id'
+        Expense.query.filter_by(owner=current_user.id).delete()
+        db.session.commit()
+        return jsonify({"success": "All transactions deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 
 
