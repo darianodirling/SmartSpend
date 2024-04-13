@@ -18,7 +18,7 @@ for table_name in table_names:
     print(table_name)
 
 user_table = metadata.tables['user']
-n
+
 connection = engine.connect()
 
 # Select all usernames from the user table
