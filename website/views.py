@@ -65,21 +65,19 @@ def create_expense():
     return jsonify({'error': 'Method not allowed'}), 405
 
 
-@views.route("/expenses/<username>")
+@views.route("/expenses")
 @login_required
-def expenses(username):
-    user = User.query.filter_by(username=username).first()
+def expenses():
+    expenses = current_user.expenses
 
-    if not user:
-        flash('No user with that username exists.', category='error')
-        return redirect(url_for('views.home'))
-
-    expenses = user.expenses
-
-    # Assuming expenses is a list of dictionaries
-    expenses_data = [{"id": expense.id, "amount": expense.amount, "category": expense.category} for expense in expenses]
+    # Assuming expenses is a list of Expense objects
+    expenses_data = [
+        {"id": expense.id, "owner": expense.owner, "savings": expense.savings, "wants": expense.wants, "needs": expense.needs}
+        for expense in expenses
+    ]
 
     return jsonify(expenses_data)
+
 
 @views.route("/start", methods=['GET', 'POST'])
 def start():
