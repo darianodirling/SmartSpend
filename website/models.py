@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
 
 class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    savings = db.Column(db.Integer, nullable=False)
-    wants = db.Column(db.Integer, nullable=False)
-    needs = db.Column(db.Integer, nullable=False)
     owner = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
+    savings = db.Column(db.Float, default=0.0)  # New field for savings
+    wants = db.Column(db.Float, default=0.0)    # New field for wants
+    needs = db.Column(db.Float, default=0.0)    # New field for needs

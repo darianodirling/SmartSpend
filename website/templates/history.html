@@ -110,7 +110,28 @@ content %}
 <div class="smart-spend-section">
   <div class="smart-spend-title">About Smart Spend</div>
 
-  <div class="smart-spend-content">content</div>
+  <div class="smart-spend-content">
+    <div>jhi</div>
+    <div class="expenses-container">
+      <!-- Expenses will be displayed here -->
+    </div>
+  </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $.ajax({
+      url: "/expenses/hiatus",
+      method: "GET",
+      success: function (data) {
+        console.log("hi" + data);
+      },
+      error: function (error) {
+        console.error("Error fetching expenses:", error);
+      },
+    });
+  });
+</script>
 
 {% endblock %}
