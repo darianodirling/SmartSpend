@@ -73,8 +73,11 @@ def expenses(username):
         return redirect(url_for('views.home'))
 
     expenses = user.expenses
-    # Change html template file name to new one once completed
-    return render_template("posts.html", user=current_user, expenses=expenses, username=username)
+
+    # Assuming expenses is a list of dictionaries
+    expenses_data = [{"id": expense.id, "amount": expense.amount, "category": expense.category} for expense in expenses]
+
+    return jsonify(expenses_data)
 
 @views.route("/start", methods=['GET', 'POST'])
 def start():
