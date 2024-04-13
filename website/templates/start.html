@@ -168,23 +168,4 @@
   });
 </script>
 
-<!-- Assuming this is within a block content in a Jinja2 template that extends base.html -->
-<button id="deleteAllTransactions" class="btn btn-danger">
-  Clear All My Expenses
-</button>
-
-<script>
-  document
-    .getElementById("deleteAllTransactions")
-    .addEventListener("click", function () {
-      if (
-        confirm(
-          "Are you sure you want to clear all transactions? This cannot be undone!"
-        )
-      ) {
-        window.location.reload(); // Reload the page to update the list of transactions
-      }
-    });
-</script>
-
 {% endblock %}
