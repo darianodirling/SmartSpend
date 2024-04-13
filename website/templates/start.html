@@ -38,8 +38,15 @@
     <button type="button" id="generateChart" class="btn btn-primary">
       Generate Chart
     </button>
+    <button
+      type="button"
+      class="btn btn btn-primary"
+      style="display: in-line-block"
+    >
+      Save Chart
+    </button>
   </form>
-  <div id="piechart" style="width: 900px; height: 500px; margin: 0 auto"></div>
+  <div id="piechart" style="width: 500px; height: 500px; margin: 0 auto"></div>
 </div>
 
 <script>
@@ -69,18 +76,6 @@
 
     calculateTotals(); // Recalculate totals when a new field is added
   });
-
-  function calculateTotals() {
-    var amounts = document.getElementsByName("amount[]");
-    var categories = document.getElementsByName("category[]");
-    var totals = { savings: 0, wants: 0, needs: 0 };
-
-    for (var i = 0; i < amounts.length; i++) {
-      var amount = parseFloat(amounts[i].value);
-      var category = categories[i].value;
-      totals[category] += amount;
-    }
-  }
 </script>
 
 <script
@@ -149,7 +144,7 @@
 
 <!-- Assuming this is within a block content in a Jinja2 template that extends base.html -->
 <button id="deleteAllTransactions" class="btn btn-danger">
-  Delete All My Transactions
+  Clear All My Expenses
 </button>
 
 <script>
@@ -158,19 +153,10 @@
     .addEventListener("click", function () {
       if (
         confirm(
-          "Are you sure you want to delete all transactions? This cannot be undone!"
+          "Are you sure you want to clear all transactions? This cannot be undone!"
         )
       ) {
-        fetch("/delete-all-transactions", { method: "POST" })
-          .then((response) => {
-            if (response.ok) {
-              alert("All transactions have been deleted.");
-              window.location.reload(); // Reload the page to update the list of transactions
-            } else {
-              alert("Failed to delete transactions.");
-            }
-          })
-          .catch((error) => console.error("Error:", error));
+        window.location.reload(); // Reload the page to update the list of transactions
       }
     });
 </script>
