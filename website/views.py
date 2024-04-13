@@ -45,18 +45,22 @@ def save_expense():
 def create_expense():
     if request.method == "POST":
         text = request.form.get('text')
+        chartId = request.form.get('chartId')
+        savings = request.form.get('savings')
+        wants = request.form.get('wants')
+        needs = request.form.get('needs')
 
         if not text:
             flash('Expense cannot be empty', category='error')
         else:
-            expense = Expense(text=text, author=current_user.id)
+            expense = Expense(text=text, author=current_user.id, chartId=chartId, savings=savings, wants=wants, needs=needs)
             db.session.add(expense)
             db.session.commit()
             flash('Expense created!', category='success')
             return redirect(url_for('views.home'))
 
     # Change html template file name when new one is created
-    return render_template('create_post.html', user=current_user)
+    return render_template('start.html', user=current_user)
 
 
 @views.route("/delete-expense/<id>")

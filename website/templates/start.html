@@ -163,7 +163,28 @@
     if (!chart) {
       console.log("Cannot save because there is no chart.");
     } else {
+      // Generate a unique ID for the chart
+      var chartId = "chart_" + new Date().getTime();
+
       // Logic to save the chart
+      var chartData = {
+        id: chartId,
+        totals: calculateTotals(),
+      };
+
+      // Send chartData to the server for saving
+      $.ajax({
+        url: "/create-expense",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(chartData),
+        success: function (response) {
+          console.log("Chart saved with ID:", chartId);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error saving chart:", error);
+        },
+      });
     }
   });
 </script>
