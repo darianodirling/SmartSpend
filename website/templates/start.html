@@ -147,6 +147,9 @@
     console.log("Wants: " + totals.wants);
     console.log("Needs: " + totals.needs);
 
+    // Save totals into local storage
+    localStorage.setItem("totals", JSON.stringify(totals));
+
     return totals;
   }
 
@@ -166,10 +169,20 @@
       // Generate a unique ID for the chart
       var chartId = "chart_" + new Date().getTime();
 
+      // Retrieve totals from local storage
+      var totals = JSON.parse(localStorage.getItem("totals"));
+
+      if (!totals) {
+        console.error("Totals data not found in local storage.");
+        return;
+      }
+
       // Logic to save the chart
       var chartData = {
         id: chartId,
-        totals: calculateTotals(),
+        wants: totals.wants,
+        needs: totals.needs,
+        savings: totals.savings,
       };
 
       // Send chartData to the server for saving
@@ -180,6 +193,7 @@
         data: JSON.stringify(chartData),
         success: function (response) {
           console.log("Chart saved with ID:", chartId);
+          console.log(totals);
         },
         error: function (xhr, status, error) {
           console.error("Error saving chart:", error);
