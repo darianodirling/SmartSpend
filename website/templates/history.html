@@ -113,40 +113,70 @@ content %}
   <div class="smart-spend-content">
     <div>jhi</div>
     <div class="expenses-container">
-      <!-- Expenses will be displayed here -->
+      <div id="piechart1"></div>
+      <div id="piechart2"></div>
+      <!-- Add more container elements as needed -->
     </div>
   </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script
+  type="text/javascript"
+  src="https://www.gstatic.com/charts/loader.js"
+></script>
 <script>
-  $(document).ready(function () {
-    $.ajax({
-      url: "/expenses", // Replace 'hiatus' with the actual username
-      method: "GET",
-      success: function (data) {
-        console.log(data); // Log the data to the console
+  // Load the Google Charts library
+  google.charts.load("current", { packages: ["corechart"] });
 
-        // Map through the data and populate the expenses container
-        data.forEach(function (expense) {
-          var expenseHtml = `
-          <div class="expense">
-            <div class="expense-id">${expense.id}</div>
-            <div class="expense-text">${expense.text}</div>
-            <div class="expense-chartId">${expense.chartId}</div>
-            <div class="expense-savings">${expense.savings}</div>
-            <div class="expense-wants">${expense.wants}</div>
-            <div class="expense-needs">${expense.needs}</div>
-          </div>
-        `;
-          $(".expenses-container").append(expenseHtml);
-        });
-      },
-      error: function (error) {
-        console.error("Error fetching expenses:", error);
-      },
+  // Set a callback function to run when the Google Charts library is loaded
+  google.charts.setOnLoadCallback(function () {
+    // Perform AJAX call and draw charts when library is loaded
+    $(document).ready(function () {
+      $.ajax({
+        url: "/expenses", // Replace 'hiatus' with the actual username
+        method: "GET",
+        success: function (data) {
+          console.log(data); // Log the data to the console
+
+          // Call drawChart function for each set of data
+          data.forEach(function (dataItem) {
+            drawChart(dataItem);
+          });
+        },
+        error: function (error) {
+          console.error("Error fetching expenses:", error);
+        },
+      });
     });
   });
+
+  // Function to draw a chart
+  function drawChart(dataItem) {
+    var chartData = new google.visualization.DataTable();
+    chartData.addColumn("string", "Category");
+    chartData.addColumn("number", "Amount");
+
+    // Populate chart data from the dataItem
+    chartData.addRow(["Savings", dataItem.savings]);
+    chartData.addRow(["Wants", dataItem.wants]);
+    chartData.addRow(["Needs", dataItem.needs]);
+
+    var options = {
+      title: "Expenses Distribution by Category",
+      width: 900,
+      height: 500,
+    };
+
+    // Draw the new chart
+    var chart = new google.visualization.PieChart(
+      document.createElement("div")
+    );
+    document
+      .querySelector(".expenses-container")
+      .appendChild(chart.getContainer());
+    chart.draw(chartData, options);
+  }
 </script>
 
 {% endblock %}
