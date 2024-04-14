@@ -88,6 +88,8 @@
       var category = categories[i].value;
       totals[category] += amount;
     }
+
+    return totals; // Return totals
   }
 </script>
 
@@ -101,7 +103,7 @@
   var chart = null;
 
   function drawChart() {
-    var totals = calculateTotals();
+    var totals = calculateTotals(); // Retrieve totals here
 
     var data = new google.visualization.DataTable();
     data.addColumn("string", "Category");

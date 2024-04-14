@@ -73,6 +73,23 @@ content %}
     max-width: 750px;
     height: auto;
   }
+
+  /* New CSS styles for the delete-section */
+  .delete-section {
+    display: none; /* Initially hide the delete-section */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .delete-section h2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2em;
+    margin-bottom: 0.5em;
+  }
 </style>
 
 <div class="smart-spend-section">
@@ -81,8 +98,14 @@ content %}
     <div class="expenses-container"></div>
   </div>
 
-  <div class="delete-button">
-    <button type="button" class="btn btn-danger" id="deleteHistory">
+  <div class="delete-section">
+    <h2>Use the button below to delete all of your history and start fresh.</h2>
+    <button
+      type="button"
+      class="btn btn-danger"
+      id="deleteHistory"
+      style="margin-top: 2em; margin-bottom: 0.5em"
+    >
       Delete History
     </button>
   </div>
@@ -105,9 +128,17 @@ content %}
         success: function (data) {
           console.log(data);
 
+          if (data.length === 0) {
+            console.log("No expenses data found");
+            return;
+          }
+
           data.forEach(function (dataItem) {
             drawChart(dataItem);
           });
+
+          // Show delete-section if data exists
+          $(".delete-section").show();
         },
         error: function (error) {
           console.error("Error fetching expenses:", error);
@@ -122,6 +153,8 @@ content %}
           success: function (response) {
             // Handle success response
             alert("History deleted successfully");
+            // Hide delete-section after deletion
+            $(".delete-section").hide();
           },
           error: function (xhr, status, error) {
             // Handle error response
