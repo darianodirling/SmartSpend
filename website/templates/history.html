@@ -2,8 +2,8 @@
 content %}
 
 <style>
-  .smart-spend-title {
-    background-image: url("../static/images/budgeting.jpg");
+  .smart-spend-history {
+    background-image: url("../static/images/briefcasewithmoney.jpg");
     background-size: cover;
     background-position: center;
     color: white;
@@ -70,13 +70,13 @@ content %}
   .chart-container {
     margin: auto;
     width: 100%;
-    max-width: 750px; /* Adjust the max-width as needed */
+    max-width: 750px;
     height: auto;
   }
 </style>
 
 <div class="smart-spend-section">
-  <div class="smart-spend-title">Your History</div>
+  <div class="smart-spend-history">Your History</div>
   <div class="smart-spend-content">
     <div class="expenses-container"></div>
   </div>
@@ -91,17 +91,14 @@ content %}
   // Load the Google Charts library
   google.charts.load("current", { packages: ["corechart"] });
 
-  // Set a callback function to run when the Google Charts library is loaded
   google.charts.setOnLoadCallback(function () {
-    // Perform AJAX call and draw charts when library is loaded
     $(document).ready(function () {
       $.ajax({
-        url: "/expenses", // Replace 'hiatus' with the actual username
+        url: "/expenses",
         method: "GET",
         success: function (data) {
-          console.log(data); // Log the data to the console
+          console.log(data);
 
-          // Call drawChart function for each set of data
           data.forEach(function (dataItem) {
             drawChart(dataItem);
           });
@@ -119,7 +116,6 @@ content %}
     chartData.addColumn("string", "Category");
     chartData.addColumn("number", "Amount");
 
-    // Populate chart data from the dataItem
     chartData.addRow(["Savings", dataItem.savings]);
     chartData.addRow(["Wants", dataItem.wants]);
     chartData.addRow(["Needs", dataItem.needs]);
@@ -130,12 +126,11 @@ content %}
       height: 500,
     };
 
-    // Draw the new chart
     var chart = new google.visualization.PieChart(
       document.createElement("div")
     );
     var chartContainer = chart.getContainer();
-    chartContainer.classList.add("chart-container"); // Add the class to the container
+    chartContainer.classList.add("chart-container");
     document.querySelector(".expenses-container").appendChild(chartContainer);
     chart.draw(chartData, options);
   }
