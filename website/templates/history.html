@@ -98,6 +98,21 @@ content %}
     <div class="expenses-container"></div>
   </div>
 
+  <div
+    class="no-expenses"
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 4em;
+    "
+  >
+    <h2>
+      No expenses data found. Please add an expense to the start page to get
+      started!
+    </h2>
+  </div>
+
   <div class="delete-section">
     <h2>Use the button below to delete all of your history and start fresh.</h2>
     <button
@@ -131,6 +146,8 @@ content %}
           if (data.length === 0) {
             console.log("No expenses data found");
             return;
+          } else {
+            $(".no-expenses").hide();
           }
 
           data.forEach(function (dataItem) {
@@ -155,6 +172,8 @@ content %}
             alert("History deleted successfully");
             // Hide delete-section after deletion
             $(".delete-section").hide();
+
+            location.reload();
           },
           error: function (xhr, status, error) {
             // Handle error response
