@@ -23,6 +23,17 @@ def history():
     expenses = Expense.query.all()
     return render_template('history.html', user=current_user)
 
+@views.route("/delete-history", methods=['POST'])
+@login_required
+def delete_history():
+    try:
+        Expense.query.filter_by(owner=current_user.id).delete()
+        db.session.commit()
+        return jsonify({"success": "History deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
 
 @views.route("/create-expense", methods=['POST'])
 @login_required
