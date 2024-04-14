@@ -47,7 +47,14 @@
       Save Chart
     </button>
   </form>
-  <div id="piechart" style="width: 500px; height: 500px; margin: 0 auto"></div>
+
+  <h3 id="create-your-expense" class="create-your-expense">
+    Create your expense!
+  </h3>
+  <div
+    id="piechart"
+    style="width: 500px; height: 500px; margin: 0 auto; display: none"
+  ></div>
 </div>
 
 <script>
@@ -159,9 +166,11 @@
     .getElementById("generateChart")
     .addEventListener("click", function () {
       drawChart();
+      document.getElementById("piechart").style.display = "block"; // Change display style to block
       document.getElementById("saveChart").style.display = chart
         ? "inline-block"
         : "none";
+      document.getElementById("create-your-expense").style.display = "none";
     });
 
   document.getElementById("saveChart").addEventListener("click", function () {
