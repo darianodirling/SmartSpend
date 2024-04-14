@@ -16,17 +16,21 @@ content %}
     justify-content: center;
     align-items: center;
   }
+
   .smart-spend-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     justify-content: center;
-
     width: 100%;
   }
 
   .smart-spend-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
   }
 
@@ -41,10 +45,8 @@ content %}
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
     margin-top: 2em;
     margin-bottom: 2em;
-
     width: 100%;
   }
 
@@ -56,67 +58,27 @@ content %}
     width: 75%;
   }
 
-  .question-answer {
-    margin: 1em;
-    width: 75%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: left;
-  }
-
-  .question {
-    text-align: center;
-  }
-
-  .answer {
-    width: 75%;
-  }
-
-  .meet-team {
+  .expenses-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 2em;
+    margin: auto;
     width: 100%;
-    height: 75vh;
-
-    background-color: rgba(218, 220, 220, 0.85);
   }
 
-  .meet-team-content {
-    width: 75%;
-  }
-
-  .team-members {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    margin-top: 2.5em;
-  }
-
-  .team-member {
-    margin: 3em;
-  }
-
-  .team-member-name {
-    margin-top: 2em;
+  .chart-container {
+    margin: auto;
+    width: 100%;
+    max-width: 750px; /* Adjust the max-width as needed */
+    height: auto;
   }
 </style>
 
 <div class="smart-spend-section">
   <div class="smart-spend-title">Your History</div>
-
   <div class="smart-spend-content">
-    <div>jhi</div>
-    <div class="expenses-container">
-      <div id="piechart1"></div>
-      <div id="piechart2"></div>
-      <!-- Add more container elements as needed -->
-    </div>
+    <div class="expenses-container"></div>
   </div>
 </div>
 
@@ -172,9 +134,9 @@ content %}
     var chart = new google.visualization.PieChart(
       document.createElement("div")
     );
-    document
-      .querySelector(".expenses-container")
-      .appendChild(chart.getContainer());
+    var chartContainer = chart.getContainer();
+    chartContainer.classList.add("chart-container"); // Add the class to the container
+    document.querySelector(".expenses-container").appendChild(chartContainer);
     chart.draw(chartData, options);
   }
 </script>
