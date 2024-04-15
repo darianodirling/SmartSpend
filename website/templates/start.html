@@ -58,6 +58,9 @@
   ></div>
 </div>
 
+<div id="financialAdvice" class="alert alert-info" style="display: none;"></div>
+
+
 <script>
   document.getElementById("addMore").addEventListener("click", function () {
     var container = document.getElementById("transactionFields");
@@ -215,6 +218,43 @@
     }
   });
 </script>
+<script>function provideFinancialAdvice(totals) {
+    const total = totals.savings + totals.wants + totals.needs;
+    const savingsTarget = total * 0.20;
+    const needsTarget = total * 0.50;
+    const wantsTarget = total * 0.30;
+    let advice = '';
+  
+    if (totals.savings < savingsTarget) {
+      advice += 'Consider increasing your savings to reach or exceed 20% of your total expenditure. ';
+    } else {
+      advice += 'Great job on meeting your savings goal! ';
+    }
+  
+    if (totals.needs > needsTarget) {
+      advice += 'Your spending on needs is above 50%; try to manage your essential expenses better. ';
+    } else {
+      advice += 'You are managing your essential needs well. ';
+    }
+  
+    if (totals.wants > wantsTarget) {
+      advice += 'You might be spending too much on wants. Try to cut back a little. ';
+    } else {
+      advice += 'You are keeping your discretionary spending within a reasonable range. ';
+    }
+  
+    const adviceElement = document.getElementById('financialAdvice');
+    adviceElement.textContent = advice;
+    adviceElement.style.display = 'block';
+  }
+  
+  document.getElementById("generateChart").addEventListener("click", function () {
+    drawChart();
+    document.getElementById("piechart").style.display = "block"; // Display the chart
+    const totals = calculateTotals(); // Get the totals from the form inputs
+    provideFinancialAdvice(totals); // Provide advice based on the totals
+  });
+  </script>
 
 <script>
   $(document).ready(function () {
