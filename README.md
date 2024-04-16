@@ -59,3 +59,8 @@ Welcome to **Smart Spend**, a powerful personal finance management tool designed
 ### Manage Transactions
 - If you need to delete transactions or adjust previously entered data, you can do so from the **Manage Transactions** page accessible from the dashboard.
 - Use the **Delete All Transactions** button to clear all recorded data and start afresh. Please use this feature cautiously as it cannot be undone.
+
+## Contributers
+- Matt Miranda - mirandam21@students.ecu.edu
+- Darian O'Dirling - odirlingd21@students.ecu.edu
+- Jethro Libutan - libutanj21@students.ecu.edu
